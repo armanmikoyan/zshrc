@@ -1,0 +1,61 @@
+setopt PROMPT_SUBST
+
+# Generate ed25519 SSH key with dynamic email
+keygen() {
+  if [ -z "$1" ]; then
+    echo "Usage: keygen your_email@example.com"
+    return 1
+  fi
+  ssh-keygen -t ed25519 -C "$1"
+}
+
+#  Copy my public key to the clipboard
+alias pubkey='cat ~/.ssh/id_rsa.pub | pbcopy && echo "Public key copied to clipboard."'
+
+#  Easier directory navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+#  Fast terminal cleanup
+alias cc='clear'
+
+#  Reload .zshrc
+alias rrc='source ~/.zshrc && echo ".zshrc Reloaded!!!"'
+#  Open .zshrc in current shell
+alias orc='vim ~/.zshrc'
+
+#  Lock screen (sleep display immediately)
+alias afk='pmset displaysleepnow'
+
+#  Git shortcuts
+alias gs='git status'
+alias gb='git branch'
+
+#  Add VS Code CLI
+export PATH="$PATH:$HOME/Downloads/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# Enable case-insensitive and smart partial autocompletion
+autoload -Uz compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=** r:|=**'
+compinit
+
+# Shows the current Git branch in the prompt
+parse_git_branch() {
+  git branch 2>/dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
+}
+
+#  Colors 
+COLOR_USR=$'%F{160}'       # Red
+COLOR_DIR=$'%F{33}'        # Blue
+COLOR_GIT=$'%F{208}'       # Orange
+COLOR_DEF=$'%F{34}'        # Green
+
+# Customize my Zsh prompt look in the terminal.
+export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%~ ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF} $ '
+
+#  WORK 
+alias fre='cd ~/media-platform/services/fre'
+alias are='cd ~/are'
+alias services='cd ~/media-platform/services'
